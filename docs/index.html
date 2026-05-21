@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <script>
-        (function() {
+        (function () {
             const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', theme);
         })();
@@ -12,14 +13,18 @@
     <title>Laravel Fresh Seed - Surgical Table Refreshing & Seeding</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --primary: #10b981; /* Emerald Green representing Fresh Seed */
+            --primary: #10b981;
+            /* Emerald Green representing Fresh Seed */
             --primary-dark: #059669;
             --primary-light: rgba(16, 185, 129, 0.1);
             --secondary: #1f2937;
-            --accent: #14b8a6; /* Teal */
+            --accent: #14b8a6;
+            /* Teal */
             --accent-light: rgba(20, 184, 166, 0.1);
             --bg-primary: #ffffff;
             --bg-secondary: #f9fafb;
@@ -212,11 +217,21 @@
             height: 20px;
         }
 
-        .theme-toggle .sun-icon { display: none; }
-        .theme-toggle .moon-icon { display: block; }
+        .theme-toggle .sun-icon {
+            display: none;
+        }
 
-        [data-theme="dark"] .theme-toggle .sun-icon { display: block; }
-        [data-theme="dark"] .theme-toggle .moon-icon { display: none; }
+        .theme-toggle .moon-icon {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .sun-icon {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .moon-icon {
+            display: none;
+        }
 
         /* Hero */
         .hero {
@@ -396,6 +411,7 @@
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
+
             .sidebar {
                 display: none;
             }
@@ -539,7 +555,8 @@
             font-size: 0.95rem;
         }
 
-        th, td {
+        th,
+        td {
             padding: 0.875rem 1rem;
             text-align: left;
             border-bottom: 1px solid var(--border);
@@ -661,15 +678,32 @@
             line-height: 1.6;
         }
 
-        .code-keyword { color: #f472b6; }
-        .code-string { color: #34d399; }
-        .code-comment { color: #64748b; }
-        .code-variable { color: #818cf8; }
-        .code-class { color: #fbbf24; }
-        .code-func { color: #38bdf8; }
+        .code-keyword {
+            color: #f472b6;
+        }
+
+        .code-string {
+            color: #34d399;
+        }
+
+        .code-comment {
+            color: #64748b;
+        }
+
+        .code-variable {
+            color: #818cf8;
+        }
+
+        .code-class {
+            color: #fbbf24;
+        }
+
+        .code-func {
+            color: #38bdf8;
+        }
 
         /* Inline code */
-        :not(pre) > code {
+        :not(pre)>code {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             padding: 0.15rem 0.4rem;
@@ -678,7 +712,7 @@
             font-size: 0.85em;
         }
 
-        [data-theme="dark"] :not(pre) > code {
+        [data-theme="dark"] :not(pre)>code {
             color: var(--primary);
         }
 
@@ -707,6 +741,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Header -->
@@ -723,11 +758,20 @@
                 <a href="#configuration">Configuration</a>
                 <div class="header-actions">
                     <button class="theme-toggle" id="themeToggleBtn" aria-label="Toggle dark mode">
-                        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m2.828 0l.707-.707m2.828-11.314l.707-.707M12 5a7 7 0 110 14 7 7 0 010-14z"/></svg>
-                        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m2.828 0l.707-.707m2.828-11.314l.707-.707M12 5a7 7 0 110 14 7 7 0 010-14z" />
+                        </svg>
+                        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
                     </button>
                     <a href="https://github.com/nomanurrahman/fresh-seed" class="github-btn" target="_blank">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
                         GitHub
                     </a>
                 </div>
@@ -739,21 +783,30 @@
     <section class="hero">
         <div class="hero-container">
             <div class="hero-badge">
-                <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z" clip-rule="evenodd"/></svg>
-                v1.1.0 Released
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
+                        clip-rule="evenodd" />
+                </svg>
+                v0.0.1 Released
             </div>
             <h1>Surgically Refresh & Seed Database Tables</h1>
-            <p>A lightweight, powerful developer tool for Laravel. Truncate, safely delete, and re-seed single or multiple tables without wiping your whole database.</p>
+            <p>A lightweight, powerful developer tool for Laravel. Truncate, safely delete, and re-seed single or
+                multiple tables without wiping your whole database.</p>
             <div class="hero-actions">
                 <a href="#getting-started" class="btn btn-primary">Get Started</a>
-                <a href="https://github.com/nomanurrahman/fresh-seed" class="btn btn-secondary" target="_blank">View on GitHub</a>
+                <a href="https://github.com/nomanurrahman/fresh-seed" class="btn btn-secondary" target="_blank">View on
+                    GitHub</a>
             </div>
             <div class="cli-block">
                 <div class="cli-text">
                     <span>$</span> composer require --dev nomanurrahman/fresh-seed
                 </div>
                 <button class="cli-copy-btn" onclick="copyCliCommand()" aria-label="Copy installation command">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" id="copySvg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" id="copySvg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
                 </button>
             </div>
         </div>
@@ -789,13 +842,16 @@
             <!-- Features Section -->
             <div id="features" class="content-section">
                 <h2>🎯 Core Features</h2>
-                <p>Instead of executing `php artisan migrate:fresh --seed` which wipes your entire database structure and takes forever, <strong>Fresh Seed</strong> allows you to surgically refresh and seed specific database tables instantly.</p>
-                
+                <p>Instead of executing `php artisan migrate:fresh --seed` which wipes your entire database structure
+                    and takes forever, <strong>Fresh Seed</strong> allows you to surgically refresh and seed specific
+                    database tables instantly.</p>
+
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">🎯</div>
                         <h4>Surgical Refresh</h4>
-                        <p>Truncate or safely delete only the table you specify, leaving other database tables perfectly untouched.</p>
+                        <p>Truncate or safely delete only the table you specify, leaving other database tables perfectly
+                            untouched.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔀</div>
@@ -805,12 +861,14 @@
                     <div class="feature-card">
                         <div class="feature-icon">📂</div>
                         <h4>Table Presets/Groups</h4>
-                        <p>Define group presets in the config to run a sequence of related truncates and seeds with one command.</p>
+                        <p>Define group presets in the config to run a sequence of related truncates and seeds with one
+                            command.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🗺️</div>
                         <h4>Interactive Picker</h4>
-                        <p>Run the command without options to select which table(s) to refresh using an interactive picker.</p>
+                        <p>Run the command without options to select which table(s) to refresh using an interactive
+                            picker.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔍</div>
@@ -820,7 +878,9 @@
                     <div class="feature-card">
                         <div class="feature-icon">🛡️</div>
                         <h4>Safe Delete Mode</h4>
-                        <p>Utilize transaction-safe standard <code>DELETE</code> statements instead of <code>TRUNCATE</code> to avoid implicit commits.</p>
+                        <p>Utilize transaction-safe standard <code>DELETE</code> statements instead of
+                            <code>TRUNCATE</code> to avoid implicit commits.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -829,7 +889,7 @@
             <div id="getting-started" class="content-section">
                 <h2>🚀 Getting Started</h2>
                 <p>Learn how to install and register the package inside your Laravel application.</p>
-                
+
                 <h3>Installation</h3>
                 <p>Install the package through Composer as a development dependency:</p>
                 <div class="code-container">
@@ -842,7 +902,8 @@
                 <p>The service provider will automatically register itself using Laravel's Package Discovery.</p>
 
                 <h3>Publishing the Configuration</h3>
-                <p>To register table presets/groups or custom connections, publish the configuration file to your config folder:</p>
+                <p>To register table presets/groups or custom connections, publish the configuration file to your config
+                    folder:</p>
                 <div class="code-container">
                     <div class="code-header">
                         <span class="code-tab">Terminal</span>
@@ -866,7 +927,8 @@
                     <tbody>
                         <tr>
                             <td><code>--table=</code></td>
-                            <td>One or more comma-separated tables to refresh. (e.g. <code>--table=users,posts</code>).</td>
+                            <td>One or more comma-separated tables to refresh. (e.g. <code>--table=users,posts</code>).
+                            </td>
                         </tr>
                         <tr>
                             <td><code>--seeder=</code></td>
@@ -878,7 +940,8 @@
                         </tr>
                         <tr>
                             <td><code>--safe</code></td>
-                            <td>Use <code>DELETE FROM</code> instead of <code>TRUNCATE</code> to avoid implicit commits.</td>
+                            <td>Use <code>DELETE FROM</code> instead of <code>TRUNCATE</code> to avoid implicit commits.
+                            </td>
                         </tr>
                         <tr>
                             <td><code>--dry-run</code></td>
@@ -925,7 +988,9 @@
             <!-- Interactive Mode -->
             <div id="interactive-mode" class="content-section">
                 <h2>🗺️ Interactive Selection Mode</h2>
-                <p>If you don't supply the <code>--table</code> or <code>--group</code> option, the package automatically queries the database schema to fetch all available tables and launches an interactive multi-select console component.</p>
+                <p>If you don't supply the <code>--table</code> or <code>--group</code> option, the package
+                    automatically queries the database schema to fetch all available tables and launches an interactive
+                    multi-select console component.</p>
 
                 <div class="code-container">
                     <div class="code-header">
@@ -957,10 +1022,16 @@ Table [posts] truncated successfully.</code></pre>
                 <h3>Safe Deletions with <code>--safe</code></h3>
                 <div class="callout callout-warning">
                     <div class="callout-title">⚠️ Implicit Database Commits</div>
-                    <p class="callout-body">In MySQL and PostgreSQL, running a <code>TRUNCATE</code> statement causes an implicit commit, meaning database transactions cannot roll it back. Furthermore, standard developers might lack table-lock <code>TRUNCATE</code> privileges in highly protected database environments.</p>
+                    <p class="callout-body">In MySQL and PostgreSQL, running a <code>TRUNCATE</code> statement causes an
+                        implicit commit, meaning database transactions cannot roll it back. Furthermore, standard
+                        developers might lack table-lock <code>TRUNCATE</code> privileges in highly protected database
+                        environments.</p>
                 </div>
 
-                <p>Running the command with the <code>--safe</code> option instructs the package to perform a standard <code>DELETE FROM table</code> query instead. This operates within database transaction limits and ensures elevated safety.</p>
+                <p>Running the command with the <code>--safe</code> option instructs the package to perform a standard
+                    <code>DELETE FROM table</code> query instead. This operates within database transaction limits and
+                    ensures elevated safety.
+                </p>
                 <div class="code-container">
                     <div class="code-header">
                         <span class="code-tab">Bash</span>
@@ -990,23 +1061,28 @@ Table [posts] truncated successfully.</code></pre>
             <!-- Custom Connections -->
             <div id="custom-connections" class="content-section">
                 <h2>🔌 Targeting Custom Connections</h2>
-                <p>Enterprise and multi-tenant applications utilize secondary database connections. Target specific connections seamlessly using the <code>--database</code> option:</p>
+                <p>Enterprise and multi-tenant applications utilize secondary database connections. Target specific
+                    connections seamlessly using the <code>--database</code> option:</p>
                 <div class="code-container">
                     <div class="code-header">
                         <span class="code-tab">Bash</span>
                     </div>
                     <pre><code>php artisan fresh:seed --table=users --database=tenant_1</code></pre>
                 </div>
-                <p>This automatically ensures constraint disabling, truncation queries, and internal Laravel seeder scopes run entirely on connection <code>tenant_1</code>.</p>
+                <p>This automatically ensures constraint disabling, truncation queries, and internal Laravel seeder
+                    scopes run entirely on connection <code>tenant_1</code>.</p>
             </div>
 
             <!-- Presets & Configuration -->
             <div id="configuration" class="content-section">
                 <h2>📂 Presets and Group Configurations</h2>
-                <p>Instead of manually keying in list tables, define reusable table presets directly in your published <code>config/fresh-seed.php</code> configuration file.</p>
+                <p>Instead of manually keying in list tables, define reusable table presets directly in your published
+                    <code>config/fresh-seed.php</code> configuration file.
+                </p>
 
-                <p>Groups support simple arrays (which auto-guess standard seeders) and key-value pairs (which explicitly assign a specific class path):</p>
-                
+                <p>Groups support simple arrays (which auto-guess standard seeders) and key-value pairs (which
+                    explicitly assign a specific class path):</p>
+
                 <div class="code-container">
                     <div class="code-header">
                         <span class="code-tab">config/fresh-seed.php</span>
@@ -1037,16 +1113,25 @@ Table [posts] truncated successfully.</code></pre>
             <!-- Conventions -->
             <div id="seeder-guessing" class="content-section">
                 <h2>🔍 Seeder Detection Conventions</h2>
-                <p>When an explicit seeder is not supplied, Fresh Seed checks both the root class path and the standard <code>Database\Seeders\</code> namespace, following Laravel conventions in this specific order:</p>
-                
+                <p>When an explicit seeder is not supplied, Fresh Seed checks both the root class path and the standard
+                    <code>Database\Seeders\</code> namespace, following Laravel conventions in this specific order:
+                </p>
+
                 <ol>
-                    <li><strong>Studly Case Table Plural Seeder:</strong> For table name <code>product_items</code>, it searches for <code>ProductItemsTableSeeder</code>.</li>
-                    <li><strong>Studly Case Table Singular Seeder:</strong> It searches for <code>ProductItemSeeder</code>.</li>
+                    <li><strong>Studly Case Table Plural Seeder:</strong> For table name <code>product_items</code>, it
+                        searches for <code>ProductItemsTableSeeder</code>.</li>
+                    <li><strong>Studly Case Table Singular Seeder:</strong> It searches for
+                        <code>ProductItemSeeder</code>.
+                    </li>
                 </ol>
 
                 <div class="callout callout-danger">
                     <div class="callout-title">🚨 Validation Constraint</div>
-                    <p class="callout-body">Specifying a custom seeder via the <code>--seeder</code> option is <strong>only valid when refreshing a single table</strong>. Passing multiple tables with a single seeder option throws a validation check to avoid seeding incompatible data columns into different tables.</p>
+                    <p class="callout-body">Specifying a custom seeder via the <code>--seeder</code> option is
+                        <strong>only valid when refreshing a single table</strong>. Passing multiple tables with a
+                        single seeder option throws a validation check to avoid seeding incompatible data columns into
+                        different tables.
+                    </p>
                 </div>
             </div>
         </section>
@@ -1099,11 +1184,11 @@ Table [posts] truncated successfully.</code></pre>
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const btn = document.querySelector('.cli-copy-btn');
                 const originalSvg = btn.innerHTML;
-                
+
                 // Show checked success icon
                 btn.innerHTML = '<svg fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
                 btn.style.pointerEvents = 'none';
-                
+
                 setTimeout(() => {
                     btn.innerHTML = originalSvg;
                     btn.style.pointerEvents = 'auto';
@@ -1112,4 +1197,5 @@ Table [posts] truncated successfully.</code></pre>
         }
     </script>
 </body>
+
 </html>
