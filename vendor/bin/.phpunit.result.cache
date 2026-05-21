@@ -1,0 +1,1 @@
+{"version":2,"defects":[],"times":{"Nomanurrahman\\FreshSeed\\Tests\\FreshSeedCommandTest::it_can_truncate_a_table":0.08,"Nomanurrahman\\FreshSeed\\Tests\\FreshSeedCommandTest::it_fails_if_table_does_not_exist":0.001,"Nomanurrahman\\FreshSeed\\Tests\\FreshSeedCommandTest::it_can_auto_detect_and_run_seeder":0.015}}

@@ -1,0 +1,54 @@
+{
+    "name": "nomanurrahman/fresh-seed",
+    "description": "seed and refresh every single table",
+    "keywords": [
+        "nomanurrahman",
+        "fresh-seed"
+    ],
+    "homepage": "https://github.com/nomanurrahman/fresh-seed",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "nomanur rahman",
+            "email": "nomanurrahman@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.5|^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nomanurrahman\\FreshSeed\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nomanurrahman\\FreshSeed\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nomanurrahman\\FreshSeed\\FreshSeedServiceProvider"
+            ],
+            "aliases": {
+                "FreshSeed": "Nomanurrahman\\FreshSeed\\FreshSeedFacade"
+            }
+        }
+    }
+}
