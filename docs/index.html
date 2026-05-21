@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel Fresh Seed - Surgical Table Refreshing & Seeding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981; /* Emerald Green representing Fresh Seed */
+            --primary-dark: #059669;
+            --primary-light: rgba(16, 185, 129, 0.1);
+            --secondary: #1f2937;
+            --accent: #14b8a6; /* Teal */
+            --accent-light: rgba(20, 184, 166, 0.1);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-code: #0f172a;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-light: #9ca3af;
+            --border: #e5e7eb;
+            --border-light: #f3f4f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --radius: 10px;
+            --radius-lg: 16px;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0b0f19;
+            --bg-secondary: #111827;
+            --bg-code: #070a13;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --text-light: #6b7280;
+            --border: #1f2937;
+            --border-light: #374151;
+            --secondary: #ffffff;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.75;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(11, 15, 25, 0.8);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        [data-theme="dark"] .github-btn {
+            background: #ffffff;
+            color: #0b0f19;
+        }
+
+        .github-btn:hover {
+            transform: translateY(-1px);
+            background: #374151;
+        }
+
+        [data-theme="dark"] .github-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .theme-toggle .sun-icon { display: none; }
+        .theme-toggle .moon-icon { display: block; }
+
+        [data-theme="dark"] .theme-toggle .sun-icon { display: block; }
+        [data-theme="dark"] .theme-toggle .moon-icon { display: none; }
+
+        /* Hero */
+        .hero {
+            padding: 9rem 2rem 5rem;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 3.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--text-light);
+        }
+
+        /* CLI Terminal Block */
+        .cli-block {
+            max-width: 580px;
+            margin: 0 auto;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cli-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cli-text span {
+            color: #94a3b8;
+            user-select: none;
+        }
+
+        .cli-copy-btn {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cli-copy-btn:hover {
+            color: #f8fafc;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .cli-copy-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Main Content Grid */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 4rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .sidebar {
+                display: none;
+            }
+        }
+
+        /* Sidebar Nav */
+        .sidebar {
+            position: sticky;
+            top: 110px;
+            height: calc(100vh - 150px);
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .sidebar-link:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .sidebar-link.active {
+            color: var(--primary);
+            border-left-color: var(--primary);
+            background: var(--primary-light);
+            font-weight: 600;
+        }
+
+        /* Section Styling */
+        .content-section {
+            margin-bottom: 5rem;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-section h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        .content-section p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        /* Features Cards Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .feature-card {
+            padding: 1.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-primary);
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 0.925rem;
+            margin: 0;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.875rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: var(--border-light);
+        }
+
+        /* Callouts */
+        .callout {
+            padding: 1.25rem 1.5rem;
+            border-left: 4px solid var(--primary);
+            background: var(--bg-secondary);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 2rem 0;
+        }
+
+        .callout-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .callout-body {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin: 0 !important;
+        }
+
+        .callout-warning {
+            border-left-color: var(--warning);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .callout-danger {
+            border-left-color: var(--error);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* Tabs and Code Blocks */
+        .code-container {
+            margin: 2rem 0;
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.75rem 1.5rem;
+        }
+
+        .code-tab {
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .code-tab::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            box-shadow: 12px 0 0 #f59e0b, 24px 0 0 #10b981;
+            margin-right: 1.5rem;
+        }
+
+        .code-copy-btn {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .code-copy-btn:hover {
+            color: #f8fafc;
+        }
+
+        .code-copy-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .code-keyword { color: #f472b6; }
+        .code-string { color: #34d399; }
+        .code-comment { color: #64748b; }
+        .code-variable { color: #818cf8; }
+        .code-class { color: #fbbf24; }
+        .code-func { color: #38bdf8; }
+
+        /* Inline code */
+        :not(pre) > code {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 0.15rem 0.4rem;
+            border-radius: 6px;
+            color: var(--primary-dark);
+            font-size: 0.85em;
+        }
+
+        [data-theme="dark"] :not(pre) > code {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border);
+            background: var(--bg-secondary);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">🌿</div>
+                <div class="logo-text">fresh<span>seed</span></div>
+            </a>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#getting-started">Docs</a>
+                <a href="#cli-reference">CLI</a>
+                <a href="#configuration">Configuration</a>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggleBtn" aria-label="Toggle dark mode">
+                        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m2.828 0l.707-.707m2.828-11.314l.707-.707M12 5a7 7 0 110 14 7 7 0 010-14z"/></svg>
+                        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </button>
+                    <a href="https://github.com/nomanurrahman/fresh-seed" class="github-btn" target="_blank">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        GitHub
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-badge">
+                <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z" clip-rule="evenodd"/></svg>
+                v1.1.0 Released
+            </div>
+            <h1>Surgically Refresh & Seed Database Tables</h1>
+            <p>A lightweight, powerful developer tool for Laravel. Truncate, safely delete, and re-seed single or multiple tables without wiping your whole database.</p>
+            <div class="hero-actions">
+                <a href="#getting-started" class="btn btn-primary">Get Started</a>
+                <a href="https://github.com/nomanurrahman/fresh-seed" class="btn btn-secondary" target="_blank">View on GitHub</a>
+            </div>
+            <div class="cli-block">
+                <div class="cli-text">
+                    <span>$</span> composer require --dev nomanurrahman/fresh-seed
+                </div>
+                <button class="cli-copy-btn" onclick="copyCliCommand()" aria-label="Copy installation command">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" id="copySvg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Sidebar Nav -->
+        <aside class="sidebar">
+            <div class="sidebar-nav">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Overview</div>
+                    <a href="#features" class="sidebar-link active">Core Features</a>
+                    <a href="#getting-started" class="sidebar-link">Getting Started</a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Usage Guide</div>
+                    <a href="#cli-reference" class="sidebar-link">CLI Commands</a>
+                    <a href="#interactive-mode" class="sidebar-link">Interactive Mode</a>
+                    <a href="#safe-deletions" class="sidebar-link">Safe Deletion</a>
+                    <a href="#custom-connections" class="sidebar-link">Custom Connections</a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Configuration</div>
+                    <a href="#configuration" class="sidebar-link">Presets & Groups</a>
+                    <a href="#seeder-guessing" class="sidebar-link">Seeder Conventions</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Documentation Content -->
+        <section class="content">
+            <!-- Features Section -->
+            <div id="features" class="content-section">
+                <h2>🎯 Core Features</h2>
+                <p>Instead of executing `php artisan migrate:fresh --seed` which wipes your entire database structure and takes forever, <strong>Fresh Seed</strong> allows you to surgically refresh and seed specific database tables instantly.</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h4>Surgical Refresh</h4>
+                        <p>Truncate or safely delete only the table you specify, leaving other database tables perfectly untouched.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔀</div>
+                        <h4>Multi-Table Support</h4>
+                        <p>Refresh multiple tables sequentially using a simple comma-separated table parameter.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📂</div>
+                        <h4>Table Presets/Groups</h4>
+                        <p>Define group presets in the config to run a sequence of related truncates and seeds with one command.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🗺️</div>
+                        <h4>Interactive Picker</h4>
+                        <p>Run the command without options to select which table(s) to refresh using an interactive picker.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h4>Dry-Run Preview</h4>
+                        <p>Validate your targets by running a full preview sequence without altering any table data.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h4>Safe Delete Mode</h4>
+                        <p>Utilize transaction-safe standard <code>DELETE</code> statements instead of <code>TRUNCATE</code> to avoid implicit commits.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Getting Started -->
+            <div id="getting-started" class="content-section">
+                <h2>🚀 Getting Started</h2>
+                <p>Learn how to install and register the package inside your Laravel application.</p>
+                
+                <h3>Installation</h3>
+                <p>Install the package through Composer as a development dependency:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Terminal</span>
+                    </div>
+                    <pre><code>composer require --dev nomanurrahman/fresh-seed</code></pre>
+                </div>
+
+                <p>The service provider will automatically register itself using Laravel's Package Discovery.</p>
+
+                <h3>Publishing the Configuration</h3>
+                <p>To register table presets/groups or custom connections, publish the configuration file to your config folder:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Terminal</span>
+                    </div>
+                    <pre><code>php artisan vendor:publish --provider="Nomanurrahman\FreshSeed\FreshSeedServiceProvider" --tag="config"</code></pre>
+                </div>
+            </div>
+
+            <!-- CLI Reference -->
+            <div id="cli-reference" class="content-section">
+                <h2>🛠️ CLI Commands & Arguments</h2>
+                <p>Here are all the available options for the console command:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>--table=</code></td>
+                            <td>One or more comma-separated tables to refresh. (e.g. <code>--table=users,posts</code>).</td>
+                        </tr>
+                        <tr>
+                            <td><code>--seeder=</code></td>
+                            <td>Explicit seeder class to run (only valid when refreshing a single table).</td>
+                        </tr>
+                        <tr>
+                            <td><code>--group=</code></td>
+                            <td>The name of a pre-configured table group defined in your config.</td>
+                        </tr>
+                        <tr>
+                            <td><code>--safe</code></td>
+                            <td>Use <code>DELETE FROM</code> instead of <code>TRUNCATE</code> to avoid implicit commits.</td>
+                        </tr>
+                        <tr>
+                            <td><code>--dry-run</code></td>
+                            <td>Print the operations that would be executed without modifying database records.</td>
+                        </tr>
+                        <tr>
+                            <td><code>--database=</code></td>
+                            <td>Database connection to use (defaults to default connection).</td>
+                        </tr>
+                        <tr>
+                            <td><code>--force</code></td>
+                            <td>Force the operation to bypass production warnings.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Examples</h3>
+
+                <p>Refresh a single table (guesses the seeder automatically):</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Bash</span>
+                    </div>
+                    <pre><code>php artisan fresh:seed --table=users</code></pre>
+                </div>
+
+                <p>Refresh multiple tables sequentially:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Bash</span>
+                    </div>
+                    <pre><code>php artisan fresh:seed --table=users,posts,comments</code></pre>
+                </div>
+
+                <p>Specify a custom seeder explicitly for a single table:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Bash</span>
+                    </div>
+                    <pre><code>php artisan fresh:seed --table=users --seeder=CustomUserTableSeeder</code></pre>
+                </div>
+            </div>
+
+            <!-- Interactive Mode -->
+            <div id="interactive-mode" class="content-section">
+                <h2>🗺️ Interactive Selection Mode</h2>
+                <p>If you don't supply the <code>--table</code> or <code>--group</code> option, the package automatically queries the database schema to fetch all available tables and launches an interactive multi-select console component.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Shell Interaction</span>
+                    </div>
+                    <pre><code>php artisan fresh:seed
+
+ Which table(s) would you like to refresh? (comma separated numbers/names):
+  [0] users
+  [1] posts
+  [2] comments
+  [3] categories
+ > 0,1
+
+Truncating table: users
+Table [users] truncated successfully.
+Seeding table using: Database\Seeders\UserSeeder
+
+Truncating table: posts
+Table [posts] truncated successfully.</code></pre>
+                </div>
+            </div>
+
+            <!-- Safe Deletions -->
+            <div id="safe-deletions" class="content-section">
+                <h2>🛡️ Safe Deletion & Dry-Run Mode</h2>
+                <p>Learn about constraint handling, safe transaction modes, and previews.</p>
+
+                <h3>Safe Deletions with <code>--safe</code></h3>
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ Implicit Database Commits</div>
+                    <p class="callout-body">In MySQL and PostgreSQL, running a <code>TRUNCATE</code> statement causes an implicit commit, meaning database transactions cannot roll it back. Furthermore, standard developers might lack table-lock <code>TRUNCATE</code> privileges in highly protected database environments.</p>
+                </div>
+
+                <p>Running the command with the <code>--safe</code> option instructs the package to perform a standard <code>DELETE FROM table</code> query instead. This operates within database transaction limits and ensures elevated safety.</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Bash</span>
+                    </div>
+                    <pre><code>php artisan fresh:seed --table=users --safe</code></pre>
+                </div>
+
+                <h3>Dry-Run Preview Mode</h3>
+                <p>Preview exact command executions safely before running migrations on critical datasets:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Bash</span>
+                    </div>
+                    <pre><code>php artisan fresh:seed --table=users,posts --safe --dry-run</code></pre>
+                </div>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Output</span>
+                    </div>
+                    <pre><code>[Dry Run] Would delete all records from table: users
+[Dry Run] Would seed table using seeder: Database\Seeders\UserSeeder
+[Dry Run] Would delete all records from table: posts
+[Dry Run] No seeder found or specified for table: posts</code></pre>
+                </div>
+            </div>
+
+            <!-- Custom Connections -->
+            <div id="custom-connections" class="content-section">
+                <h2>🔌 Targeting Custom Connections</h2>
+                <p>Enterprise and multi-tenant applications utilize secondary database connections. Target specific connections seamlessly using the <code>--database</code> option:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Bash</span>
+                    </div>
+                    <pre><code>php artisan fresh:seed --table=users --database=tenant_1</code></pre>
+                </div>
+                <p>This automatically ensures constraint disabling, truncation queries, and internal Laravel seeder scopes run entirely on connection <code>tenant_1</code>.</p>
+            </div>
+
+            <!-- Presets & Configuration -->
+            <div id="configuration" class="content-section">
+                <h2>📂 Presets and Group Configurations</h2>
+                <p>Instead of manually keying in list tables, define reusable table presets directly in your published <code>config/fresh-seed.php</code> configuration file.</p>
+
+                <p>Groups support simple arrays (which auto-guess standard seeders) and key-value pairs (which explicitly assign a specific class path):</p>
+                
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">config/fresh-seed.php</span>
+                    </div>
+                    <pre><code><span class="code-keyword">return</span> [
+    <span class="code-string">'groups'</span> => [
+        <span class="code-string">'auth'</span> => [
+            <span class="code-string">'users'</span> => <span class="code-string">'Database\\Seeders\\UserSeeder'</span>,
+            <span class="code-string">'roles'</span> => <span class="code-string">'Database\\Seeders\\RoleSeeder'</span>,
+            <span class="code-string">'permissions'</span> => <span class="code-string">'Database\\Seeders\\PermissionSeeder'</span>,
+        ],
+        <span class="code-string">'blog'</span> => [<span class="code-string">'posts'</span>, <span class="code-string">'comments'</span>], <span class="code-comment">// Guesses PostSeeder and CommentSeeder</span>
+    ],
+
+    <span class="code-string">'connection'</span> => <span class="code-keyword">null</span>, <span class="code-comment">// Configure a default fallback connection</span>
+];</code></pre>
+                </div>
+
+                <p>Run group presets using the <code>--group=</code> flag:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-tab">Bash</span>
+                    </div>
+                    <pre><code>php artisan fresh:seed --group=auth</code></pre>
+                </div>
+            </div>
+
+            <!-- Conventions -->
+            <div id="seeder-guessing" class="content-section">
+                <h2>🔍 Seeder Detection Conventions</h2>
+                <p>When an explicit seeder is not supplied, Fresh Seed checks both the root class path and the standard <code>Database\Seeders\</code> namespace, following Laravel conventions in this specific order:</p>
+                
+                <ol>
+                    <li><strong>Studly Case Table Plural Seeder:</strong> For table name <code>product_items</code>, it searches for <code>ProductItemsTableSeeder</code>.</li>
+                    <li><strong>Studly Case Table Singular Seeder:</strong> It searches for <code>ProductItemSeeder</code>.</li>
+                </ol>
+
+                <div class="callout callout-danger">
+                    <div class="callout-title">🚨 Validation Constraint</div>
+                    <p class="callout-body">Specifying a custom seeder via the <code>--seeder</code> option is <strong>only valid when refreshing a single table</strong>. Passing multiple tables with a single seeder option throws a validation check to avoid seeding incompatible data columns into different tables.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="#" class="footer-logo">
+            <span>🌿 freshseed</span>
+        </a>
+        <p>Created by nomanur rahman. Released under the MIT License.</p>
+    </footer>
+
+    <!-- Script for interactive elements -->
+    <script>
+        // Theme toggler
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Scrollspy for active sidebar navigation
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.sidebar-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 120)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Clipboard copying
+        function copyCliCommand() {
+            const textToCopy = 'composer require --dev nomanurrahman/fresh-seed';
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const btn = document.querySelector('.cli-copy-btn');
+                const originalSvg = btn.innerHTML;
+                
+                // Show checked success icon
+                btn.innerHTML = '<svg fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+                btn.style.pointerEvents = 'none';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalSvg;
+                    btn.style.pointerEvents = 'auto';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
